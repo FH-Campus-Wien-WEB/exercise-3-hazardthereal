@@ -8,9 +8,12 @@
     <script src="edit.js" defer></script>
   </head> 
   <body>
-    <form> 
-      <input type="hidden" id="imdbID" />
-      <div><label for="Title">Title</label><input type="text" id="Title" /></div>
+    <header>Edit Movie</header>
+    <nav></nav>
+    <main>
+      <form> 
+        <input type="hidden" id="imdbID" />
+        <div><label for="Title">Title</label><input type="text" id="Title" /></div>
       <div><label for="Released">Released On</label><input type="date" id="Released" /></div>
       <div><label for="Runtime">Runtime</label><input type="number" id="Runtime" min="0"/></div>
       <div><label for="Plot">Plot</label><textarea row="5" id="Plot"></textarea></div>
@@ -61,6 +64,7 @@
         <button type="button" onclick="location.href = 'index.html'">Cancel</button>
       </div>
     </form>
-    
+    </main>
+    <footer>&copy; 2023 My Movie App</footer>
   </body>
 </html>
