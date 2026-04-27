@@ -62,6 +62,9 @@ function loadMovies(genre) {
 
   const url = new URL("/movies", location.href)
   /* Task 1.4. Add query parameter to the url if a genre is given */
+  if (genre) {
+    url.searchParams.set("genre", genre);
+  }
 
   xhr.open("GET", url)
   xhr.send()
@@ -70,16 +73,50 @@ function loadMovies(genre) {
 window.onload = function () {
   const xhr = new XMLHttpRequest();
   xhr.onload = function () {
-    const listElement = document.querySelector("nav>ul");
+    const navElement = document.querySelector("nav");
 
     if (xhr.status === 200) {
-      /* Task 1.3. Add the genre buttons to the listElement and 
-         initialize them with a click handler that calls the 
-         loadMovies(...) function above. */
       const genres = JSON.parse(xhr.responseText);
 
+      // Create menu button
+      const menuButton = document.createElement("button");
+      menuButton.textContent = "Genres";
+      menuButton.classList.add("menu-button");
+      navElement.appendChild(menuButton);
+
+      // Create dropdown container
+      const dropdown = document.createElement("div");
+      dropdown.classList.add("dropdown");
+      navElement.appendChild(dropdown);
+
+      // Add "All" option
+      const allButton = document.createElement("button");
+      allButton.textContent = "All";
+      allButton.addEventListener("click", () => {
+        loadMovies();
+        dropdown.style.display = "none";
+      });
+      dropdown.appendChild(allButton);
+
+      // Add genre options
+      genres.forEach(genre => {
+        const genreButton = document.createElement("button");
+        genreButton.textContent = genre;
+        genreButton.addEventListener("click", () => {
+          loadMovies(genre);
+          dropdown.style.display = "none";
+        });
+        dropdown.appendChild(genreButton);
+      });
+
+      // Toggle dropdown on menu button click
+      menuButton.addEventListener("click", () => {
+        const isVisible = dropdown.style.display === "flex";
+        dropdown.style.display = isVisible ? "none" : "flex";
+      });
+
       /* When a first button exists, we click it to load all movies. */
-      const firstButton = document.querySelector("nav button");
+      const firstButton = document.querySelector("nav .dropdown button");
       if (firstButton) {
         firstButton.click();
       }
